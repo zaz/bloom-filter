@@ -78,6 +78,4 @@ function fnv_mix(a) {
 	return a & 0xffffffff
 }
 
-module.exports = {
-	BloomFilter: BloomFilter
-}
+module.exports = BloomFilter
