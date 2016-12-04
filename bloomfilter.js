@@ -4,8 +4,7 @@
 // *k* is the number of hash functions.
 class BloomFilter {
 	constructor(a, k) {
-		var n = a.length
-		this.m = n * 32
+		this.m = a.length * 32
 		this.k = k
 		this.buckets = a
 	}
@@ -13,10 +12,10 @@ class BloomFilter {
 	// See http://willwhim.wpengine.com/2011/09/03/producing-n-hash-functions-by-hashing-only-once/
 	locations(v) {
 		var m = this.m,
-		    a = hash_a(String(v)),
-		    b = mod(hash_b(a), m),
-		    a = mod(a, m),
-		    l = []
+			a = hash_a(String(v)),
+			b = mod(hash_b(a), m),
+			a = mod(a, m),
+			l = []
 		for (var i = 0; i < this.k; ++i) {
 			l[i] = a
 			a = (a + b) % m
@@ -41,9 +40,7 @@ class BloomFilter {
 }
 
 // Return true (positive) modulus of x
-function mod(x, m) {
-	return ((x % m) + m) %m
-}
+mod = (x, m) => ((x % m) + m) %m
 
 
 // http://graphics.stanford.edu/~seander/bithacks.html#CountBitsSetParallel
@@ -66,14 +63,10 @@ function hash_a(v) {
 }
 
 // One additional iteration of FNV, given a hash.
-function hash_b(a) {
-	return fnv_mix(fnv_multiply(a))
-}
+hash_b = a => fnv_mix(fnv_multiply(a))
 
 // a * 16777619 mod 2**32
-function fnv_multiply(a) {
-	return a + (a << 1) + (a << 4) + (a << 7) + (a << 8) + (a << 24)
-}
+fnv_multiply = a => a + (a << 1) + (a << 4) + (a << 7) + (a << 8) + (a << 24)
 
 // See https://web.archive.org/web/20131019013225/http://home.comcast.net/~bretm/hash/6.html
 function fnv_mix(a) {
